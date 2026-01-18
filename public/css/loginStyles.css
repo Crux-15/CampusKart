@@ -1,0 +1,178 @@
+/* General Reset */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f8ff;
+    /* Light AliceBlue to match the theme */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header Design from Code 02 */
+header {
+    /* FIX: Go up one folder (..), then into 'img' to find the picture */
+    background-image: url("../img/CampusKart.png");
+
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    color: rgb(12, 12, 12);
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-size: 42px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 0 0 50% 50%;
+    z-index: -1;
+}
+
+.overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(120, 211, 240, 0.6);
+}
+
+h1 {
+    font-size: 70px;
+    margin-top: 30px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h4 {
+    font-size: 28px;
+    margin-top: -40px;
+    text-align: center;
+    font-weight: 400;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Floating Card Design */
+.login-container {
+    width: 90%;
+    max-width: 400px;
+    background-color: rgb(171, 215, 231);
+    margin: -100px auto 50px auto;
+    /* Pulls the card up into the header */
+    padding: 35px;
+    border-radius: 15px;
+    /*box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);*/
+    position: relative;
+    z-index: 1;
+}
+
+.login-container h3 {
+    text-align: center;
+    color: #333;
+    font-size: 45px;
+    margin-top: 2px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Form Elements */
+label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    /* Ensures padding doesn't break width */
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+/* Focus effects from Code 01 */
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: rgb(0, 90, 120);
+    box-shadow: 0 0 8px rgba(120, 211, 240, 0.5);
+}
+
+input[type="text"]:hover,
+input[type="password"]:hover {
+    border-color: #78d3f0;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.remember-me input {
+    margin-right: 5px;
+    accent-color: rgb(1, 138, 150)
+}
+
+/* Button Styling */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: rgb(53, 90, 255);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    background-color: #000;
+    /* Black hover from Code 01 */
+}
+
+/* Utilities */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+#Forget {
+    color: rgb(53, 90, 255);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#SignUp {
+    color: rgb(206, 0, 225);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#SignUp,
+#Forget {
+    transition: color 0.3s, text-decoration 0.3s;
+}
+
+.Ending {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.Ending span {
+    margin: 0 2px;
+}
+
+#SignUp:hover,
+#Forget:hover {
+    color: black;
+    text-decoration: none;
+}

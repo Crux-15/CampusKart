@@ -1,0 +1,197 @@
+/* Reuse Body background from global */
+body {
+    background-color: #f0f8ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-container {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* The White Card Container */
+.sell-container {
+    background-color: white;
+    width: 100%;
+    max-width: 700px;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #f0f8ff;
+    padding-bottom: 20px;
+}
+
+.form-header h2 {
+    font-family: 'Times New Roman', serif;
+    font-size: 36px;
+    color: #333;
+    margin: 0;
+}
+
+.form-header p {
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 25px;
+}
+
+.form-section h3 {
+    color: rgb(53, 90, 255);
+    font-size: 18px;
+    margin-bottom: 15px;
+    border-left: 4px solid rgb(53, 90, 255);
+    padding-left: 10px;
+}
+
+label {
+    font-weight: bold;
+    color: #444;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: 0.3s;
+    outline: none;
+    background-color: #fafafa;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #78d3f0;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(120, 211, 240, 0.3);
+}
+
+/* Two Column Layout */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+/* Radio Buttons */
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 5px;
+}
+.radio-group label {
+    font-weight: normal;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.radio-group input {
+    margin-right: 8px;
+    accent-color: rgb(53, 90, 255);
+}
+
+/* Upload Box Design */
+.upload-box {
+    border: 2px dashed #78d3f0;
+    background-color: #f0f8ff;
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+.upload-box:hover {
+    background-color: #e0f2f9;
+    border-color: rgb(53, 90, 255);
+}
+
+.upload-box input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0; /* Hide the ugly default button */
+    cursor: pointer;
+}
+
+.upload-box p {
+    color: #555;
+    font-weight: 500;
+}
+
+/* Submit Button */
+.submit-ad-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(to right, rgb(53, 90, 255), rgb(30, 60, 200));
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(53, 90, 255, 0.3);
+}
+
+.submit-ad-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(53, 90, 255, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr; /* Stack inputs on phone */
+    }
+    .sell-container {
+        padding: 20px;
+    }
+}
+
+/* ========================
+   NEW: IMAGE UPLOAD STYLES
+   ======================== */
+.error-msg {
+    color: #dc3545; /* Red */
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 8px;
+    display: none; /* Hidden by default (JS turns it on) */
+}
+
+#preview-img {
+    max-width: 100%;
+    max-height: 150px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: none; /* Hidden by default (JS turns it on) */
+    margin: 0 auto;
+}
+
+/* Ensure the upload box handles the image properly */
+.upload-box img {
+    max-width: 100%;
+    object-fit: contain;
+}

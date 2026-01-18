@@ -1,0 +1,548 @@
+/* ========================
+   1. GLOBAL RESET
+   ======================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f8ff;
+    /* AliceBlue Background */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ========================
+   2. NAVBAR STYLES
+   ======================== */
+.navbar {
+    width: 100%;
+    height: 70px;
+    background: linear-gradient(to right, rgba(120, 211, 240, 1), rgba(69, 178, 216, 1));
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    color: white;
+    font-size: 46px;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 0.5px;
+}
+
+/* Search Bar */
+.search-form {
+    flex: 1;
+    max-width: 450px;
+    margin: 0 30px;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: #f0f8ff;
+}
+
+.search-bar button {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Nav Links */
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links li a {
+    color: white;
+    font-weight: 500;
+    font-size: 17px;
+    padding-bottom: 5px;
+}
+
+.nav-links li a:hover,.nav-links li a.active {
+    border-bottom: 2px solid white;
+}
+
+/* User Actions */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.sell-btn {
+    background-color: transparent;
+    padding: 6px 13px 6px 8px;
+    border-radius: 20px;
+    border: 1px solid #000;
+    font-weight: bold;
+    font-size: 15px;
+    transition: 0.3s;
+    cursor: pointer;
+    color: #000;
+}
+
+.sell-btn:hover {
+    background-color: rgb(0, 90, 120);
+    color: white;
+    border-color: rgb(0, 90, 120);
+    border-radius: 8px 15px 8px 15px;
+}
+
+/* ========================
+   PROFILE DROPDOWN STYLES
+   ======================== */
+
+/* 1. The Container - Keeps the menu attached to the avatar */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* 2. The Avatar (Trigger) */
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    color: rgb(53, 90, 255);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid transparent;
+    transition: 0.3s;
+}
+
+/* Hover Effect on Avatar */
+.profile-dropdown:hover .avatar-circle {
+    border-color: white;
+    background-color: #f0f8ff;
+}
+
+/* 3. The Dropdown Menu (Hidden initially) */
+.dropdown-menu {
+    display: none; /* Hides the menu */
+    position: absolute;
+    right: 0;
+    top: 50px; /* Pushes it down below the avatar */
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    z-index: 1001; /* On top of everything */
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Show the menu when hovering over the container */
+.profile-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* 4. Menu Content Styles */
+.user-info {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.user-info strong {
+    display: block;
+    color: #333;
+    font-size: 16px;
+}
+
+.user-info small {
+    color: #666;
+    font-size: 12px;
+}
+
+.dropdown-menu hr {
+    margin: 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* Menu Links */
+.menu-item {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.menu-item:hover {
+    background-color: #f0f8ff; /* AliceBlue hover */
+    color: rgb(53, 90, 255);
+}
+
+.menu-item .icon {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* Logout Specific Style */
+.menu-item.logout {
+    color: #d9534f; /* Red color for danger/logout */
+}
+
+.menu-item.logout:hover {
+    background-color: #fff0f0;
+    color: #c9302c;
+}
+
+/* Simple Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================
+   3. MAIN LAYOUT (GRID)
+   ======================== */
+.main-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: grid;
+    /* Two columns: Feed takes remaining space (1fr), Sidebar is fixed (280px) */
+    grid-template-columns: 1fr 280px;
+    gap: 30px;
+}
+
+/* ========================
+   4. PRODUCT FEED (LEFT)
+   ======================== */
+.feed-header {
+    margin-bottom: 20px;
+}
+
+.feed-header h2 {
+    font-size: 40px;
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    color: #333;
+    border-bottom: 2px solid #78d3f0;
+    padding-bottom: 10px;
+}
+
+
+.product-grid {
+    display: grid;
+    /* Auto-fit columns: as many as fit, min width 220px */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    font-weight: bold;
+}
+
+.card-details {
+    padding: 15px;
+}
+
+.card-details h4 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+.price {
+    color: rgb(53, 90, 255);
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.seller {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.card-details button {
+    width: 100%;
+    padding: 8px;
+    background-color: transparent;
+    border: 1px solid rgb(53, 90, 255);
+    color: rgb(53, 90, 255);
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.card-details button:hover {
+    background-color: rgb(53, 90, 255);
+    color: white;
+}
+
+/* ========================
+   5. FILTER SIDEBAR (RIGHT)
+   ======================== */
+.sidebar-section {
+    position: relative;
+    /* Container for sticky element */
+}
+
+.filter-box {
+    background-color: rgb(223, 218, 218);
+    /* Grey Card */
+    padding: 20px;
+    border-radius: 15px;
+    position: sticky;
+    top: 90px;
+    /* Sticks 90px from top when scrolling */
+}
+
+.sidebar-header h3 {
+    margin-top: 0;
+    border-bottom: 2px solid #78d3f0;
+    padding-bottom: 10px;
+    font-family: 'Times New Roman', serif;
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.filter-select,
+.price-inputs input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.price-inputs {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+/* Radio List for Categories */
+.radio-list label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    font-size: 14px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.radio-list input {
+    margin-right: 8px;
+    accent-color: rgb(53, 90, 255);
+}
+
+.apply-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(53, 90, 255);
+    color: white;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.apply-btn:hover {
+    background-color: black;
+}
+
+.reset-link {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #000;
+    font-size: 13px;
+    font-weight: bold;
+    border: #000 1px solid;
+    padding: 5px;
+    border-radius: 8px;
+
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* Stack them on phone */
+    .filter-box {
+        position: static;
+        margin-bottom: 30px;
+    }
+
+    .nav-links,
+    .search-form {
+        display: none;
+    }
+
+    /* Simplified mobile nav */
+}
+
+/* Notification Dropdown */
+.notif-dropdown {
+    position: relative;
+}
+.notif-content {
+    display: none; /* Hidden by default */
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background-color: white;
+    min-width: 300px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    z-index: 1000;
+    padding: 10px 0;
+    border: 1px solid #eee;
+}
+.notif-content.show {
+    display: block; /* Show when clicked */
+    animation: fadeIn 0.3s;
+}
+
+/* Notification Item */
+.notif-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f1f1f1;
+    color: #333;
+    display: block;
+    font-size: 14px;
+    transition: 0.2s;
+    text-decoration: none;
+}
+.notif-item:last-child { border-bottom: none; }
+.notif-item:hover { background-color: #f9f9f9; color: rgb(53, 90, 255); }
+
+.notif-loading { padding: 20px; text-align: center; color: #777; font-size: 13px; }
+.notif-empty { padding: 20px; text-align: center; color: #777; }
+
+/* Small Red Dot (Optional) */
+#notif-badge {
+    height: 8px; width: 8px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 5px;
+    display: none; /* Hidden until loaded */
+}
+
+/* SEARCH CONTAINER RELATIVE POSITIONING */
+/* Ensure the .search-bar class (lines 53-57 in your file) has: position: relative; */
+
+/* The Dropdown Box */
+.suggestions-box {
+    position: absolute;
+    top: 100%; /* Directly below input */
+    left: 0;
+    width: 100%;
+    background: white;
+    border-radius: 0 0 15px 15px; /* Round bottom corners */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    z-index: 1001;
+    display: none; /* Hidden by default */
+    overflow: hidden;
+}
+
+.suggestion-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    transition: 0.2s;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f8ff; /* Light blue hover */
+    color: rgb(53, 90, 255);
+}
+
+.no-match {
+    padding: 15px;
+    color: #888;
+    text-align: center;
+    font-size: 13px;
+    font-style: italic;
+}

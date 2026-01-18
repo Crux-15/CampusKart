@@ -1,0 +1,258 @@
+/* Container Layout */
+.product-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
+}
+.breadcrumb a { color: rgb(53, 90, 255); font-weight: 500; }
+.breadcrumb span { margin: 0 8px; color: #ccc; }
+
+/* The Grid (Left Image / Right Details) */
+.details-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr; /* 60% - 40% ratio */
+    gap: 40px;
+    align-items: start;
+}
+
+/* LEFT COLUMN: Image */
+.product-image-box {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    text-align: center;
+}
+.product-image-box img {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+/* RIGHT COLUMN: Info */
+.product-info-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-title {
+    font-family: 'Times New Roman', serif;
+    font-size: 32px;
+    color: #333;
+    margin: 0;
+}
+
+.product-meta {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.category-tag {
+    background: #e0f2f9;
+    color: #007ea7;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.condition-tag {
+    background: #fff3cd;
+    color: #856404;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.product-price {
+    font-size: 28px;
+    color: rgb(53, 90, 255);
+    font-weight: bold;
+}
+
+.product-desc {
+    color: #555;
+    line-height: 1.6;
+    font-size: 16px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+/* SELLER CARD (The "Trust" Section) */
+.seller-card {
+    background: white;
+    border: 1px solid #e1e4e8;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.seller-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.seller-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #eee;
+}
+
+.seller-details h4 { margin: 0; font-size: 16px; color: #333; }
+.seller-details p { margin: 2px 0 0; font-size: 13px; color: #777; }
+
+/* ACTION BUTTONS */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-interest {
+    background: rgb(53, 90, 255);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btn-interest:hover { background: #0044cc; }
+
+.btn-message {
+    background: white;
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btn-message:hover { border-color: rgb(53, 90, 255); color: rgb(53, 90, 255); }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .details-grid { grid-template-columns: 1fr; }
+}
+
+/* INTERESTED BUTTON STATES */
+.btn-interest.active {
+    background-color: #dc3545; /* Red for "Remove" */
+    color: white;
+}
+.btn-interest.active:hover {
+    background-color: #c82333;
+}
+
+/* SELLER VIEW: INTERESTED BUYERS LIST */
+.interested-section {
+    margin-top: 30px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid rgb(53, 90, 255);
+}
+.buyer-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.buyer-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.buyer-phone {
+    font-weight: bold;
+    color: rgb(53, 90, 255);
+    background: #e0f2f9;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+/* MESSAGE MODAL (POPUP) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 2000; 
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto; /* 10% from top */
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%; max-width: 500px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    position: relative;
+    animation: slideDown 0.3s;
+}
+
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close-modal:hover { color: black; }
+
+.modal-textarea {
+    width: 100%; height: 120px;
+    padding: 10px; margin: 15px 0;
+    border: 2px solid #eee; border-radius: 8px;
+    resize: none; font-family: inherit;
+}
+.modal-textarea:focus { border-color: rgb(53, 90, 255); outline: none; }
+
+.btn-send-real {
+    background: rgb(53, 90, 255); color: white;
+    width: 100%; padding: 12px;
+    border: none; border-radius: 8px;
+    font-weight: bold; cursor: pointer;
+}
+
+@keyframes slideDown { from {transform: translateY(-50px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }

@@ -1,0 +1,155 @@
+/* Container */
+.inbox-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.inbox-header {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+.inbox-header h2 {
+    font-family: 'Times New Roman', serif;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Conversation Card */
+.conversation-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+/* Header */
+.conversation-header {
+    background-color: #f9fbff;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+.sender-profile { display: flex; align-items: center; gap: 15px; }
+.convo-avatar {
+    width: 45px; height: 45px; border-radius: 50%;
+    object-fit: cover; border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.avatar-circle.small { width: 45px; height: 45px; font-size: 18px; margin: 0; }
+.convo-name { margin: 0; font-size: 16px; color: #333; }
+
+/* Message Body (The Chat Area) */
+.conversation-body {
+    padding: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Message Bubbles */
+.msg-row { display: flex; width: 100%; }
+
+/* THEIR Message (Left) */
+.msg-row.them { justify-content: flex-start; }
+.msg-row.them .msg-bubble {
+    background: #f1f1f1;
+    color: #333;
+    border-radius: 0 15px 15px 15px;
+}
+
+/* MY Message (Right) */
+.msg-row.me { justify-content: flex-end; }
+.msg-row.me .msg-bubble {
+    background: rgb(53, 90, 255);
+    color: white;
+    border-radius: 15px 0 15px 15px;
+}
+
+.msg-bubble {
+    padding: 12px 18px;
+    max-width: 70%;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.msg-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    font-size: 11px;
+    opacity: 0.8;
+}
+.product-badge {
+    background: rgba(0,0,0,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Reply Section */
+.reply-box {
+    padding: 15px 20px;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+.reply-form {
+    display: flex;
+    gap: 10px;
+}
+.reply-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+}
+.reply-input:focus { border-color: rgb(53, 90, 255); }
+
+.reply-btn {
+    background: rgb(53, 90, 255);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.reply-btn:hover { 
+    background-color: #0044cc; 
+}
+
+/* Delete Button in Header */
+.conversation-header {
+    /* Existing styles... add relative positioning if needed, 
+       but Flexbox usually handles it well. Ensure this exists: */
+    justify-content: space-between; /* Pushes content to edges */
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff4d4d; /* Red color */
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete:hover {
+    background-color: #fff0f0;
+}

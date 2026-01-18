@@ -1,0 +1,142 @@
+/* Reuse Global Background */
+body {
+    background-color: #f0f8ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Container */
+.profile-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 300px 1fr; /* Left Sidebar, Right Content */
+    gap: 30px;
+}
+
+/* ========================
+   LEFT CARD (Identity)
+   ======================== */
+.profile-card {
+    background: white;
+    border-radius: 15px;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+
+.profile-avatar-large {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, rgb(53, 90, 255), rgb(120, 211, 240));
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 5px 15px rgba(53, 90, 255, 0.3);
+}
+
+.profile-card h2 {
+    margin: 0;
+    font-family: 'Times New Roman', serif;
+    color: #333;
+}
+
+.profile-card p {
+    color: #777;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.role-badge {
+    display: inline-block;
+    background-color: #e0f2f9;
+    color: rgb(0, 90, 120);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* ========================
+   RIGHT CARD (Details)
+   ======================== */
+.details-card {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.details-header {
+    border-bottom: 2px solid #f0f8ff;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details-header h3 {
+    margin: 0;
+    font-family: 'Times New Roman', serif;
+    font-size: 24px;
+    color: #333;
+}
+
+.edit-btn {
+    background: none;
+    border: 1px solid rgb(53, 90, 255);
+    color: rgb(53, 90, 255);
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: rgb(53, 90, 255);
+    color: white;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.info-item label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.info-item .value {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-container {
+        grid-template-columns: 1fr;
+    }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
