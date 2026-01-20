@@ -5,55 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account - CampusKart</title>
+    
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/homepageStyles.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/profileStyles.css">
-    <style>
-        /* Extra styles for form inputs */
-        .readonly-input {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            color: #6c757d;
-            cursor: default;
-            font-weight: 500;
-        }
-
-        .editable-input {
-            border: 1px solid rgb(53, 90, 255);
-            background-color: #fff;
-            box-shadow: 0 0 5px rgba(53, 90, 255, 0.1);
-        }
-
-        #photo-upload {
-            display: none;
-        }
-
-        /* Plus Icon Trigger */
-        .upload-trigger {
-            position: absolute;
-            bottom: 5px;
-            right: 10px;
-            background: rgb(53, 90, 255);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 24px;
-            font-weight: 400;
-            border: 3px solid white;
-            transition: transform 0.2s;
-            line-height: 0;
-            padding-bottom: 4px;
-        }
-
-        .upload-trigger:hover {
-            transform: scale(1.1);
-            background-color: #000;
-        }
-    </style>
+    
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/profileCustomStyles.css">
 </head>
 
 <body>
@@ -94,6 +50,12 @@
                         <a href="<?php echo URLROOT; ?>/products/notifications" class="menu-item">
                             <span class="icon">&#128276;</span> Notifications
                         </a>
+                        <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin'): ?>
+                            <a href="<?php echo URLROOT; ?>/admin/index" class="menu-item" style="color: red; font-weight: bold; background-color: #fff0f0;">
+                                <span class="icon">&#128736;</span> Admin Panel
+                            </a>
+                            <hr>
+                        <?php endif; ?>
                         <a href="<?php echo URLROOT; ?>/users/logout" class="menu-item logout">
                             <span class="icon">&#128682;</span> Sign Out
                         </a>

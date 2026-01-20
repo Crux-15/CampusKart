@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 18, 2026 at 06:56 PM
+-- Generation Time: Jan 19, 2026 at 11:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -115,7 +115,7 @@ CREATE TABLE `products` (
   `condition_type` varchar(50) NOT NULL,
   `description` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `status` enum('available','sold') DEFAULT 'available',
+  `status` enum('pending','approved','available','sold') DEFAULT 'pending',
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -124,10 +124,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `user_id`, `title`, `price`, `category`, `condition_type`, `description`, `image`, `status`, `created_at`) VALUES
-(3, 3, 'Raspberry Pi 5', 5000.00, 'Electronics', '', 'Raspberry Pi 5\r\nSADMAN SAKIB', '1768592666_images.png', 'available', '2026-01-17 01:44:26'),
-(4, 3, 'Calculator', 499.00, 'Stationery', '', 'My Calculator', '1768596262_download.png', 'available', '2026-01-17 02:44:22'),
-(6, 3, 'BIC Lighter', 20.00, 'Accessories', '', 'My Bic Lighter', '1768598564_BIC-Classic-Pocket-Lighter-50-Count_1a7c7331-7b0c-4ee7-a38a-f130b1dad85d.24e95247b126782f6273f0d5e4150f09.png', 'available', '2026-01-17 03:22:44'),
-(7, 6, 'hola', 410.00, 'Books', '', 'dsfaefrw', '1768647188_Gemini_Generated_Image_z3v3ykz3v3ykz3v3.png', 'available', '2026-01-17 16:53:08');
+(3, 3, 'Raspberry Pi 5', 5000.00, 'Electronics', '', 'Raspberry Pi 5\r\nSADMAN SAKIB', '1768592666_images.png', 'approved', '2026-01-17 01:44:26'),
+(4, 3, 'Calculator', 499.00, 'Stationery', '', 'My Calculator', '1768596262_download.png', 'approved', '2026-01-17 02:44:22'),
+(6, 3, 'BIC Lighter', 20.00, 'Accessories', '', 'My Bic Lighter', '1768598564_BIC-Classic-Pocket-Lighter-50-Count_1a7c7331-7b0c-4ee7-a38a-f130b1dad85d.24e95247b126782f6273f0d5e4150f09.png', 'approved', '2026-01-17 03:22:44'),
+(7, 6, 'hola', 410.00, 'Books', '', 'dsfaefrw', '1768647188_Gemini_Generated_Image_z3v3ykz3v3ykz3v3.png', 'approved', '2026-01-17 16:53:08');
 
 -- --------------------------------------------------------
 
@@ -148,20 +148,23 @@ CREATE TABLE `users` (
   `role` enum('student','admin') DEFAULT 'student',
   `created_at` datetime DEFAULT current_timestamp(),
   `secondary_email` varchar(255) DEFAULT NULL,
-  `profile_image` varchar(255) DEFAULT NULL
+  `profile_image` varchar(255) DEFAULT NULL,
+  `status` enum('pending','approved') DEFAULT 'pending',
+  `security_answer` varchar(255) NOT NULL DEFAULT 'admin'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `student_id`, `mobile`, `department`, `batch`, `gender`, `role`, `created_at`, `secondary_email`, `profile_image`) VALUES
-(1, 'Sadman Sakib', 'sadman@aiub.edu', '123456', '23-50636-1', '01870640240', 'CSE', '23-1', 'Male', 'admin', '2026-01-16 23:25:16', NULL, NULL),
-(2, 'Aritri Roy Priota', 'aritri_priota@aiub.edu', '654321', '23-51531-1', '01918256264', 'CSE', '23-1', 'Female', 'admin', '2026-01-16 23:26:38', NULL, NULL),
-(3, 'Tirtho', 'tirtho@student.aiub.edu', '741025', '23-50637-1', '01978646674', 'CSE', NULL, 'Male', 'student', '2026-01-17 00:41:02', '', 'user_3_1768594160.png'),
-(5, 'aritri', 'aritri@student.aiub.edu', '123654', '23-51530-1', '01918556862', 'CSE', NULL, 'Female', 'student', '2026-01-17 14:57:14', '', 'user_5_1768640311.jpeg'),
-(6, 'SADMAN', 'asdas@aiub.edu', '555555', '23-11111-1', '01870540850', 'CSE', '23-1', 'Male', 'student', '2026-01-17 16:51:40', NULL, NULL),
-(7, 'Dipa Roy', 'dipa@university.edu', '123456', '23-22222-1', '01712087697', 'BBA', NULL, 'Female', 'student', '2026-01-18 15:21:21', '', 'user_7_1768728210.jpeg');
+INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `student_id`, `mobile`, `department`, `batch`, `gender`, `role`, `created_at`, `secondary_email`, `profile_image`, `status`, `security_answer`) VALUES
+(1, 'Sadman Sakib', 'sadman@aiub.edu', '123456', '23-50636-1', '01870640240', 'CSE', '23-1', 'Male', 'admin', '2026-01-16 23:25:16', NULL, NULL, 'pending', 'admin'),
+(2, 'Aritri Roy Priota', 'aritri_priota@aiub.edu', '654321', '23-51531-1', '01918256264', 'CSE', '23-1', 'Female', 'admin', '2026-01-16 23:26:38', NULL, NULL, 'pending', 'admin'),
+(3, 'Tirtho', 'tirtho@student.aiub.edu', '741025', '23-50637-1', '01978646674', 'CSE', NULL, 'Male', 'student', '2026-01-17 00:41:02', '', 'user_3_1768594160.png', 'approved', 'student'),
+(5, 'aritri', 'aritri@student.aiub.edu', '123654', '23-51530-1', '01918556862', 'CSE', NULL, 'Female', 'student', '2026-01-17 14:57:14', '', 'user_5_1768640311.jpeg', 'approved', 'student'),
+(6, 'SADMAN', 'asdas@aiub.edu', '555555', '23-11111-1', '01870540850', 'CSE', '23-1', 'Male', 'student', '2026-01-17 16:51:40', NULL, NULL, 'approved', 'admin'),
+(7, 'Dipa Roy', 'dipa@university.edu', '123456', '23-22222-1', '01712087697', 'BBA', NULL, 'Female', 'student', '2026-01-18 15:21:21', '', 'user_7_1768728210.jpeg', 'approved', 'admin'),
+(8, 'Super Admin', 'admin@campuskart.com', '123456', '00-00000-0', '0000000000', 'Admin', 'N/A', 'Male', 'admin', '2026-01-19 04:28:36', NULL, NULL, 'approved', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -249,7 +252,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
