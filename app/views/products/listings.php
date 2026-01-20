@@ -5,52 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Listings - CampusKart</title>
+    
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/homepageStyles.css">
-    <style>
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .btn-update {
-            flex: 1;
-            padding: 8px;
-            background-color: rgb(53, 90, 255);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .btn-delete {
-            flex: 1;
-            padding: 8px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333;
-        }
-
-        .btn-update:hover {
-            background-color: #000;
-        }
-
-        .feed-header h2 {
-            font-family: 'Times New Roman', serif;
-            border-bottom: 2px solid #78d3f0;
-            display: inline-block;
-            padding-bottom: 5px;
-        }
-    </style>
+    
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/listingsStyles.css">
 </head>
 
 <body>
@@ -91,6 +49,12 @@
                             <span class="icon">&#128276;</span> Notifications
                         </a>
                         <a href="<?php echo URLROOT; ?>/users/messages" class="menu-item"><span class="icon">&#128172;</span> Messages</a>
+                        <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin'): ?>
+                            <a href="<?php echo URLROOT; ?>/admin/index" class="menu-item" style="color: red; font-weight: bold; background-color: #fff0f0;">
+                                <span class="icon">&#128736;</span> Admin Panel
+                            </a>
+                            <hr>
+                        <?php endif; ?>
                         <hr>
                         <a href="<?php echo URLROOT; ?>/users/logout" class="menu-item logout">
                             <span class="icon">&#128682;</span> Sign Out
@@ -109,7 +73,10 @@
 
         <div class="product-grid">
             <?php if (empty($data['products'])): ?>
-                <p style="grid-column: 1/-1; text-align: center; margin-top: 20px;">You haven't listed any items yet.</p>
+                <div style="grid-column: 1/-1; text-align: center; margin-top: 50px; color: #777;">
+                    <h3>You haven't listed any items yet.</h3>
+                    <p>Click the "+ Sell" button to add your first product!</p>
+                </div>
             <?php else: ?>
                 <?php foreach ($data['products'] as $product) : ?>
                     <div class="product-card">

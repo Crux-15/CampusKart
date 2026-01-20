@@ -86,6 +86,12 @@
                 </div>
             </div>
 
+            <div class="input-group">
+                <label>Security Question: What is your favorite book?</label>
+                <input type="text" name="security_answer" placeholder="e.g. Harry Potter" required>
+                <span class="invalid-feedback"><?php echo $data['security_err'] ?? ''; ?></span>
+            </div>
+
             <div class="form-row">
                 <div class="form-group">
                     <label for="password">Password</label>

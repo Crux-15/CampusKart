@@ -8,23 +8,34 @@ class User {
         $this->conn = $database->getConnection();
     }
 
-    // 1. LOGIN USER
-    public function login($email_or_id, $password) {
-        $query = "SELECT * FROM " . $this->table . " WHERE email = :input OR student_id = :input LIMIT 1";
+    // 1. LOGIN USER (Updated for Stability)
+    public function login($emailOrId, $password) {
+        // We use two different placeholders (:email and :sid) to prevent database errors
+        $query = "SELECT * FROM users WHERE email = :email OR student_id = :sid";
         
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':input', $email_or_id);
+        
+        // Bind the same input to BOTH placeholders
+        $stmt->bindValue(':email', $emailOrId);
+        $stmt->bindValue(':sid', $emailOrId);
+        
         $stmt->execute();
-
+        
+        // Fetch the user
         $row = $stmt->fetch(PDO::FETCH_OBJ);
 
+        // Check if user exists
         if($row) {
-            // In a real app, use password_verify($password, $row->password)
-            if($password == $row->password) {
-                return $row;
+            $hashed_password = $row->password;
+            // Verify Password
+            if(password_verify($password, $hashed_password)) {
+                return $row; // Success
+            } else {
+                return false; // Wrong Password
             }
+        } else {
+            return false; // User not found
         }
-        return false;
     }
 
     // 2. FIND USER BY EMAIL (For Registration Check)
@@ -41,9 +52,12 @@ class User {
         }
     }
 
-    // 3. REGISTER NEW USER
+    // 3. REGISTER NEW USER (Correct Column Order)
     public function register($data) {
-        $query = "INSERT INTO " . $this->table . " (fullname, email, student_id, mobile, department, batch, gender, password, role) VALUES (:name, :email, :sid, :mobile, :dept, :batch, :gender, :pass, 'student')";
+        $query = "INSERT INTO " . $this->table . " 
+                 (fullname, email, student_id, mobile, department, batch, gender, password, security_answer, role, status) 
+                 VALUES 
+                 (:name, :email, :sid, :mobile, :dept, :batch, :gender, :pass, :sec_ans, 'student', 'pending')";
         
         $stmt = $this->conn->prepare($query);
 
@@ -56,6 +70,7 @@ class User {
         $stmt->bindParam(':batch', $data['batch']);
         $stmt->bindParam(':gender', $data['gender']);
         $stmt->bindParam(':pass', $data['password']);
+        $stmt->bindParam(':sec_ans', $data['security_answer']);
 
         if($stmt->execute()) {
             return true;
@@ -76,10 +91,8 @@ class User {
 
     // Update User Profile
     public function updateProfile($data) {
-        // We only update Mobile, Batch, Secondary Email, and Profile Image (if provided)
         $query = "UPDATE " . $this->table . " SET mobile = :mobile, batch = :batch, secondary_email = :sec_email";
         
-        // Only update image if a new one was uploaded
         if(!empty($data['profile_image'])) {
             $query .= ", profile_image = :image";
         }
@@ -88,13 +101,11 @@ class User {
 
         $stmt = $this->conn->prepare($query);
 
-        // Bind Values
         $stmt->bindParam(':mobile', $data['mobile']);
         $stmt->bindParam(':batch', $data['batch']);
         $stmt->bindParam(':sec_email', $data['secondary_email']);
         $stmt->bindParam(':id', $data['id']);
 
-        //add image param if exists
         if(!empty($data['profile_image'])) {
             $stmt->bindParam(':image', $data['profile_image']);
         }
@@ -105,5 +116,7 @@ class User {
             return false;
         }
     }
+
+
 }
 ?>

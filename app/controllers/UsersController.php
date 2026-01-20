@@ -2,7 +2,7 @@
 class UsersController
 {
     private $userModel;
-    private $messageModel; // Added Message Model property
+    private $messageModel;
 
     public function __construct()
     {
@@ -11,16 +11,24 @@ class UsersController
         $this->userModel = new User();
 
         // Load the Message Model
-        require_once APPROOT . '/models/Message.php';
-        $this->messageModel = new Message();
+        // (Ensure app/models/Message.php exists, or this will error)
+        if(file_exists(APPROOT . '/models/Message.php')){
+            require_once APPROOT . '/models/Message.php';
+            $this->messageModel = new Message();
+        }
     }
 
     // 1. The Default Method (Loads Login Page)
     public function index()
     {
-        // If user is already logged in, redirect to home
+        // FIX: If already logged in, send them to their dashboard
         if (isset($_SESSION['user_id'])) {
-            echo "You are already logged in!";
+            // Check role to decide where to send them
+            if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') {
+                header('location: ' . URLROOT . '/admin/index');
+            } else {
+                header('location: ' . URLROOT . '/pages/index');
+            }
             exit;
         }
 
@@ -68,8 +76,25 @@ class UsersController
                 $loggedInUser = $this->userModel->login($data['username'], $data['password']);
 
                 if ($loggedInUser) {
-                    // Create Session
-                    $this->createUserSession($loggedInUser);
+                    // --- THE GATEKEEPER START ---
+                    
+                    // 1. CHECK STATUS: Is the user pending?
+                    if($loggedInUser->status == 'pending') {
+                        $data['password_err'] = 'Your account is pending Admin approval. Please wait.';
+                        require_once '../app/views/users/login.php';
+                    } 
+                    // 2. CHECK STATUS: Is the user Banned or Rejected?
+                    elseif($loggedInUser->status == 'rejected' || $loggedInUser->status == 'banned') {
+                        $data['password_err'] = 'This account has been deactivated by the Admin.';
+                        require_once '../app/views/users/login.php';
+                    }
+                    // 3. SUCCESS: User is approved
+                    else {
+                        // Create Session and Redirect
+                        $this->createUserSession($loggedInUser);
+                    }
+                    // --- THE GATEKEEPER END ---
+
                 } else {
                     $data['password_err'] = 'Password or Username is incorrect';
                     require_once '../app/views/users/login.php';
@@ -78,29 +103,163 @@ class UsersController
                 require_once '../app/views/users/login.php';
             }
         } else {
-            $this->index();
+            require_once '../app/views/users/login.php';
         }
     }
 
     // SHOW FORGOT PASSWORD PAGE
+    // STEP 1: IDENTIFY USER
+    // STEP 1: IDENTIFY USER (Fixed Variable Name)
     public function forgot_password() {
-        if(file_exists('../app/views/users/forgot_password.php')) {
-            require_once '../app/views/users/forgot_password.php';
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            
+            $data = [
+                'fullname' => trim($_POST['fullname']),
+                'student_id' => trim($_POST['student_id']),
+                'email' => trim($_POST['email']),
+                'error_msg' => ''
+            ];
+
+            // Check DB for matching user
+            $user = $this->userModel->findUserForReset($data['fullname'], $data['student_id'], $data['email']);
+
+            if($user) {
+                // SUCCESS: User found! Move to Step 2
+                // FIX: Variable name changed from $viewData to $data
+                $data = [
+                    'user_id' => $user->id,
+                    'error_msg' => ''
+                ];
+                require_once '../app/views/users/security_question.php';
+            } else {
+                // FAILED: No match
+                $data['error_msg'] = 'No account found matching these details.';
+                require_once '../app/views/users/forgot_password.php';
+            }
+
         } else {
-            die('View forgot_password.php not found');
+            // Load default page
+            $data = ['error_msg' => ''];
+            require_once '../app/views/users/forgot_password.php';
+        }
+    }
+
+    // STEP 2: VERIFY SECURITY QUESTION (Fixed Variable Name)
+    public function verify_security() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $userId = $_POST['user_id'];
+            $answer = trim($_POST['security_answer']);
+
+            if($this->userModel->checkSecurityAnswer($userId, $answer)) {
+                // SUCCESS: Answer is correct!
+                $_SESSION['reset_user_id'] = $userId;
+                
+                // Redirect to Step 3
+                header('location: ' . URLROOT . '/users/new_password');
+            } else {
+                // FAILED: Wrong Answer
+                // FIX: Variable name changed from $viewData to $data
+                $data = [
+                    'user_id' => $userId,
+                    'error_msg' => 'Incorrect answer. Please try again.'
+                ];
+                require_once '../app/views/users/security_question.php';
+            }
+        } else {
+            header('location: ' . URLROOT . '/users/forgot_password');
+        }
+    }
+
+    // STEP 3: SET NEW PASSWORD
+    public function new_password() {
+        // SECURITY CHECK: Ensure user passed Step 2
+        if(!isset($_SESSION['reset_user_id'])) {
+            header('location: ' . URLROOT . '/users/login');
+            exit;
+        }
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            
+            $data = [
+                'password' => trim($_POST['password']),
+                'confirm_password' => trim($_POST['confirm_password']),
+                'error_msg' => ''
+            ];
+
+            // Validation
+            if(empty($data['password'])) {
+                $data['error_msg'] = 'Please enter a password';
+            } elseif(strlen($data['password']) < 6) {
+                $data['error_msg'] = 'Password must be at least 6 characters';
+            }
+
+            if(empty($data['confirm_password'])) {
+                $data['error_msg'] = 'Please confirm your password';
+            } else {
+                if($data['password'] != $data['confirm_password']) {
+                    $data['error_msg'] = 'Passwords do not match';
+                }
+            }
+
+            // If no errors, update DB
+            if(empty($data['error_msg'])) {
+                
+                // Hash the new password
+                $hashed_password = password_hash($data['password'], PASSWORD_DEFAULT);
+                $userId = $_SESSION['reset_user_id'];
+
+                if($this->userModel->resetPassword($userId, $hashed_password)) {
+                    // SUCCESS!
+                    
+                    // Clear the reset session so they can't use it again
+                    unset($_SESSION['reset_user_id']);
+                    
+                    // Show success alert and go to login
+                    echo "<script>
+                        alert('Password reset successful! You can now login with your new password.');
+                        window.location.href='" . URLROOT . "/users/login';
+                    </script>";
+                } else {
+                    die('Something went wrong');
+                }
+
+            } else {
+                // Load view with errors
+                require_once '../app/views/users/new_password.php';
+            }
+
+        } else {
+            // Load the view (GET request)
+            $data = [
+                'password' => '',
+                'confirm_password' => '',
+                'error_msg' => ''
+            ];
+            require_once '../app/views/users/new_password.php';
         }
     }
 
 
+
+
     // 3. Helper to set Session Variables
-    public function createUserSession($user)
-    {
+    public function createUserSession($user) {
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_email'] = $user->email;
         $_SESSION['user_name'] = $user->fullname;
-        $_SESSION['user_role'] = $user->role;
+        $_SESSION['user_role'] = $user->role; 
 
-        header('location: ' . URLROOT . '/pages/index');
+        if($user->role == 'admin') {
+            header('location: ' . URLROOT . '/admin/index');
+        } else {
+            header('location: ' . URLROOT . '/pages/index');
+        }
     }
 
     // 4. Logout
@@ -115,11 +274,12 @@ class UsersController
         header('location: ' . URLROOT . '/users/login');
     }
 
-    // REGISTER FUNCTION
+    // REGISTER FUNCTION (FIXED)
     public function register() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+            // Get form data
             $data = [
                 'fullname' => trim($_POST['fullname']),
                 'email' => trim($_POST['email']),
@@ -128,14 +288,17 @@ class UsersController
                 'department' => trim($_POST['department']),
                 'batch' => trim($_POST['batch']),
                 'gender' => trim($_POST['gender']),
+                'security_answer' => trim($_POST['security_answer']), 
                 'password' => trim($_POST['password']),
                 'confirm_password' => trim($_POST['confirm_password']),
-                'email_err' => '',
-                'student_id_err' => '',
-                'password_err' => '',
-                'confirm_password_err' => ''
+                
+                // Errors
+                'name_err' => '', 'email_err' => '', 'student_id_err' => '',
+                'mobile_err' => '', 'password_err' => '', 'confirm_password_err' => '',
+                'security_err' => '' 
             ];
 
+            // Validate Email
             if(empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
             } else {
@@ -144,16 +307,24 @@ class UsersController
                 }
             }
 
+            // Validate Student ID
             if(empty($data['student_id'])) {
                 $data['student_id_err'] = 'Please enter Student ID';
             }
 
+            // Validate Security Answer
+            if(empty($data['security_answer'])) {
+                $data['security_err'] = 'Please answer the security question';
+            }
+
+            // Validate Password
             if(empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
             } elseif(strlen($data['password']) < 6) {
                 $data['password_err'] = 'Password must be at least 6 characters';
             }
 
+            // Validate Confirm Password
             if(empty($data['confirm_password'])) {
                 $data['confirm_password_err'] = 'Please confirm password';
             } else {
@@ -162,17 +333,27 @@ class UsersController
                 }
             }
 
-            if(empty($data['email_err']) && empty($data['student_id_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
+            // CHECK ALL ERRORS (Added security_err check)
+            if(empty($data['email_err']) && empty($data['student_id_err']) && empty($data['password_err']) && empty($data['confirm_password_err']) && empty($data['security_err'])) {
+                
+                // ----------------------------------------
+                // CRITICAL FIX: Hash Password Before Saving
+                // ----------------------------------------
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
                 if($this->userModel->register($data)) {
+                    // Success -> Redirect to login
                     header('location: ' . URLROOT . '/users/login');    
                 } else {
                     die('Something went wrong');
                 }
             } else {
+                // Load view with errors
                 require_once '../app/views/users/register.php';
             }
 
         } else {
+            // Init data for GET request
             $data = [
                 'fullname' => '',
                 'email' => '',
@@ -181,12 +362,14 @@ class UsersController
                 'department' => '',
                 'batch' => '',
                 'gender' => '',
+                'security_answer' => '',
                 'password' => '',
                 'confirm_password' => '',
                 'email_err' => '',
                 'student_id_err' => '',
                 'password_err' => '',
-                'confirm_password_err' => ''
+                'confirm_password_err' => '',
+                'security_err' => ''
             ];
 
             if(file_exists('../app/views/users/register.php')) {
@@ -197,6 +380,7 @@ class UsersController
         }
     }
 
+    // ACCOUNT SETTINGS
     public function account() {
         if(!isset($_SESSION['user_id'])) {
             header('location: ' . URLROOT . '/users/login');
@@ -238,10 +422,13 @@ class UsersController
             }
 
             // 2. Prepare Data
+            // Note: Make sure your form sends 'batch' if you want to update it
             $data = [
                 'id' => $_SESSION['user_id'],
                 'mobile' => trim($_POST['mobile']),
                 'secondary_email' => trim($_POST['secondary_email']),
+                // If form has batch, use it; otherwise keep old
+                'batch' => isset($_POST['batch']) ? trim($_POST['batch']) : $user->batch,
                 'profile_image' => $imageName
             ];
 
@@ -266,6 +453,11 @@ class UsersController
             header('location: ' . URLROOT . '/users/login');
         }
 
+        // Ensure Message Model is loaded
+        if(!$this->messageModel) {
+            die('Message Model not loaded.');
+        }
+
         $user = $this->userModel->getUserById($_SESSION['user_id']);
         $messages = $this->messageModel->getInbox($_SESSION['user_id']);
 
@@ -277,7 +469,6 @@ class UsersController
         require_once '../app/views/users/messages.php';
     }
 
-    // SEND REPLY
     // SEND REPLY (AJAX VERSION)
     public function reply() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -297,7 +488,7 @@ class UsersController
 
             if(!empty($data['message'])) {
                 if($this->messageModel->send($data)) {
-                    // SUCCESS: Return JSON instead of Redirect
+                    // SUCCESS: Return JSON
                     echo json_encode([
                         'status' => 'success', 
                         'message' => nl2br(htmlspecialchars($data['message'])), 
@@ -331,6 +522,5 @@ class UsersController
             }
         }
     }
-
 }
 ?>

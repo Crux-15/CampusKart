@@ -1,0 +1,48 @@
+/* --- MY LISTINGS PAGE STYLES --- */
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-update {
+    flex: 1;
+    padding: 8px;
+    background-color: rgb(53, 90, 255);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none; /* Ensures link looks like a button */
+    display: inline-block;
+}
+
+.btn-delete {
+    flex: 1;
+    padding: 8px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.btn-update:hover {
+    background-color: #000;
+}
+
+.feed-header h2 {
+    font-family: 'Times New Roman', serif;
+    border-bottom: 2px solid #78d3f0;
+    display: inline-block;
+    padding-bottom: 5px;
+}

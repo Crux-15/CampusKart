@@ -1,0 +1,45 @@
+/* Extra styles for form inputs */
+.readonly-input {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    color: #6c757d;
+    cursor: default;
+    font-weight: 500;
+}
+
+.editable-input {
+    border: 1px solid rgb(53, 90, 255);
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(53, 90, 255, 0.1);
+}
+
+#photo-upload {
+    display: none;
+}
+
+/* Plus Icon Trigger */
+.upload-trigger {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    background: rgb(53, 90, 255);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 400;
+    border: 3px solid white;
+    transition: transform 0.2s;
+    line-height: 0;
+    padding-bottom: 4px;
+}
+
+.upload-trigger:hover {
+    transform: scale(1.1);
+    background-color: #000;
+}
