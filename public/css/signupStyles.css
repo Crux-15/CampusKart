@@ -1,0 +1,189 @@
+/* General Reset */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================
+   HEADER DESIGN (Matches Login)
+   ============================ */
+header {
+    background-color: #78d3f0;
+    /* FIX: Go up one folder (..) then into img to find the file */
+    background-image: url("../img/CampusKart.png"); 
+    
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 0 0 50% 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    /* Added blend mode to make text readable */
+    background-blend-mode: overlay;
+    background: linear-gradient(to bottom, rgba(120, 211, 240, 0.8), rgba(69, 178, 216, 0.9)), url("../img/CampusKart.png");
+    color: white;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Header Text Styling */
+h1 {
+    font-size: 70px;
+    margin-top: 30px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h4 {
+    font-size: 28px;
+    margin-top: -20px;
+    text-align: center;
+    font-weight: 400;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* ============================
+   SIGNUP CARD DESIGN
+   ============================ */
+.signup-container {
+    width: 90%;
+    max-width: 600px;
+    background-color: rgb(171, 215, 231);
+    margin: -80px auto 50px auto;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    position: relative;
+}
+
+.signup-container h3 {
+    text-align: center;
+    color: #333;
+    font-size: 35px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Layout Classes for 2-Column Form */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Form Inputs */
+label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    outline: none;
+    font-size: 14px;
+    background-color: white;
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+select:hover {
+    border-color: #78d3f0;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: #005a78;
+    box-shadow: 0 0 8px rgba(120, 211, 240, 0.5);
+}
+
+select {
+    cursor: pointer;
+    height: 40px;
+}
+
+/* Radio Button Styling */
+.radio-group {
+    display: flex;
+    gap: 20px;
+    padding: 5px 0;
+}
+
+.radio-group label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #000;
+}
+
+.radio-group input {
+    margin-right: 5px;
+    width: auto;
+}
+
+/* Button */
+.signup-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: rgb(53, 90, 255);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.signup-btn:hover {
+    background-color: #000;
+}
+
+/* Bottom Links */
+.Ending {
+    text-align: center;
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+#Login {
+    color: rgb(206, 0, 225);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 5px;
+    transition: color 0.3s;
+}
+
+#Login:hover {
+    color: black;
+    text-decoration: none;
+}
