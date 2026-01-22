@@ -1,6 +1,6 @@
 # CampusKart 🛒🎓
 
-**CampusKart** is a dedicated peer-to-peer marketplace platform designed specifically for university students. It facilitates the buying, selling, and exchanging of academic resources (books, electronics, accessories) within a trusted campus community.
+**CampusKart** is a dedicated peer-to-peer marketplace platform designed specifically for university students. It facilitates the buying, selling, and exchanging of academic resources (books, electronics, accessories) & also the Home-Rental ad within a trusted campus community.
 
 The project is built using a custom **MVC (Model-View-Controller) Framework** in native PHP, ensuring a secure, scalable, and organized codebase.
 
@@ -28,7 +28,7 @@ The project is built using a custom **MVC (Model-View-Controller) Framework** in
 * **Backend:** PHP (Native MVC Architecture), PDO (Database Security)
 * **Frontend:** HTML5, CSS3, JavaScript (Vanilla + AJAX)
 * **Database:** MySQL
-* **Server:** Apache (XAMPP/WAMP)
+* **Server:** Apache (XAMPP)
 
 ---
 
